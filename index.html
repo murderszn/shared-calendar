@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shared Planning Calendar</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <h1>Shared Planning Calendar</h1>
+    <div id="userToggle">
+      <button id="user1Button" class="active">Dad</button>
+      <button id="user2Button">Mom</button>
+    </div>
+    <div class="calendar-header">
+      <button id="prevMonth">&lt; Prev</button>
+      <span id="monthYear"></span>
+      <button id="nextMonth">Next &gt;</button>
+    </div>
+    <div id="dates"></div>
+    <button id="generateOutput">Generate Output</button>
+
+    <!-- Preferences Section -->
+    <div class="preferences-container">
+      <div class="preferences-card">
+        <h3>Dad's Preferences</h3>
+        <p>Requested:</p>
+        <ul id="dadRequestedDates">
+          <li>None</li>
+        </ul>
+        <p>Avoided:</p>
+        <ul id="dadAvoidedDates">
+          <li>None</li>
+        </ul>
+      </div>
+      <div class="preferences-card">
+        <h3>Mom's Preferences</h3>
+        <p>Requested:</p>
+        <ul id="momRequestedDates">
+          <li>None</li>
+        </ul>
+        <p>Avoided:</p>
+        <ul id="momAvoidedDates">
+          <li>None</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Proposed Calendar Section -->
+    <div class="proposed-calendar">
+      <h3>Proposed Schedule</h3>
+      <div id="proposedDates"></div>
+    </div>
+
+    <!-- Download Section -->
+    <div id="downloadSection">
+      <h3>Download Options</h3>
+      <button id="downloadExcel">Download as Excel</button>
+      <button id="downloadCalendar">Download for Google/Outlook</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
