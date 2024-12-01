@@ -6,19 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shared Planning Calendar</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="favicon.ico" />
+  <link rel="icon" href="favicon.ico">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 
 <body>
   <div class="app">
-    <!-- Logo -->
-    <div class="logo-container">
-      <img src="images/logo3.webp" alt="Shared Planning Calendar Logo" class="logo">
+
+    <!-- Logo Container -->
+    <div class="logo-wrapper">
+      <div class="logo-container">
+        <img src="images/logo3.webp" alt="Shared Planning Calendar Logo" class="logo">
+      </div>
     </div>
 
     <h1>Shared Planning Calendar</h1>
-    <div class="subtitle">by OneByte LLC</div> <!-- Added subtitle -->
+    <div class="subtitle">by OneByte LLC</div>
 
     <!-- User Toggle -->
     <div id="userToggle" class="user-toggle">
@@ -50,6 +53,7 @@
 
     <!-- Preferences Section -->
     <div class="preferences-container">
+
       <!-- Dad's Preferences -->
       <div class="preferences-card">
         <h3>Dad's Preferences</h3>
@@ -102,7 +106,7 @@
       <p>Please make a $5 donation in BTC to access the Generate Output feature.</p>
       <p><strong>Bitcoin Address:</strong></p>
       <p id="btcAddress">bc1qp7atyd9v5ddxqyl09wpzz6dp2wq78hny3tz6jj</p>
-      <img id="btcQR" src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=bitcoin:bc1qp7atyd9v5ddxqyl09wpzz6dp2wq78hny3tz6jj&choe=UTF-8" alt="QR Code for BTC" />
+      <img id="btcQR" src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=bitcoin:bc1qp7atyd9v5ddxqyl09wpzz6dp2wq78hny3tz6jj&choe=UTF-8" alt="QR Code for BTC">
       <p>Once you've made the payment, click "Confirm Payment."</p>
       <button id="confirmPayment">Confirm Payment</button>
       <button id="closeModal">Cancel</button>

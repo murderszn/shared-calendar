@@ -25,15 +25,24 @@ body {
 }
 
 /* Logo styles */
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 150px;
+  margin: 0 auto 20px auto; /* Center the logo container */
+}
+
 .logo-container {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
 }
 
 .logo {
-  width: 150px;
+  width: 100%;
+  max-width: 150px;
   height: auto;
   transition: all 0.3s ease;
 }
@@ -348,6 +357,6 @@ button:hover {
   }
 
   .logo {
-    width: 150px;
+    width: 100px;
   }
 }
