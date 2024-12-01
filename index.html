@@ -5,8 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shared Planning Calendar</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="favicon.ico" />
+  <!-- Link to the correct stylesheet -->
+  <link rel="stylesheet" href="./styles.css">
+  <!-- Link to the favicon -->
+  <link rel="icon" href="./favicon.ico" />
+  <!-- Link to the XLSX library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 
@@ -15,7 +18,8 @@
     <!-- Logo Container -->
     <div class="logo-wrapper">
       <div class="logo-container">
-        <img src="images/logo3.webp" alt="Shared Planning Calendar Logo" class="logo">
+        <!-- Corrected path for the logo -->
+        <img src="./images/logo3.webp" alt="Shared Planning Calendar Logo" class="logo">
       </div>
     </div>
 
@@ -54,7 +58,7 @@
     </div>
     <div id="dates"></div>
 
-    <!-- Preferences Section (Now Moved Below the Calendar) -->
+    <!-- Preferences Section -->
     <div class="preferences-summary">
       <p><strong>Dad's Preferences:</strong> Requested: <span id="dadRequestedDatesInline">None</span>, Avoided: <span id="dadAvoidedDatesInline">None</span></p>
       <p><strong>Mom's Preferences:</strong> Requested: <span id="momRequestedDatesInline">None</span>, Avoided: <span id="momAvoidedDatesInline">None</span></p>
@@ -71,7 +75,7 @@
         Note: This schedule is generated based on preferences. You can modify the proposed schedule by clicking each day to toggle between "Dad," "Mom," or resolve conflicts.
       </p>
 
-      <!-- Assigned Days Summary (Moved inside Proposed Calendar Section) -->
+      <!-- Assigned Days Summary -->
       <div class="assigned-days-summary">
         <p><strong>Dad's Assigned Days:</strong> <span id="dadDaysCount">0</span></p>
         <p><strong>Mom's Assigned Days:</strong> <span id="momDaysCount">0</span></p>
@@ -97,14 +101,16 @@
       <p>Please make a $5 donation in BTC to access the Generate Output feature.</p>
       <p><strong>Bitcoin Address:</strong></p>
       <p id="btcAddress">bc1qp7atyd9v5ddxqyl09wpzz6dp2wq78hny3tz6jj</p>
-      <img id="btcQR" src="qrcode.svg" alt="QR Code for BTC" />
+      <!-- Corrected path for the QR code -->
+      <img id="btcQR" src="./qrcode.svg" alt="QR Code for BTC" />
       <p>Once you've made the payment, click "Confirm Payment."</p>
       <button id="confirmPayment">Confirm Payment</button>
       <button id="closeModal">Cancel</button>
     </div>
   </div>
 
-  <script src="script.js" defer></script>
+  <!-- Corrected path for the script -->
+  <script src="./script.js" defer></script>
 </body>
 
 </html>

@@ -30,7 +30,7 @@
   // Set BTC QR code from local file
   function setLocalBTCQRCode() {
     if (btcQRImage) {
-      btcQRImage.src = 'qrcode.svg';
+      btcQRImage.src = './images/qrcode.svg'; // Adjust path if necessary
       btcQRImage.alt = 'Bitcoin QR Code';
     }
   }
@@ -54,10 +54,12 @@
 
     monthYearElement.textContent = `${currentDate.toLocaleString('default', { month: 'long' })} ${year}`;
 
+    const fragment = document.createDocumentFragment();
+
     for (let i = 0; i < firstDay; i++) {
       const empty = document.createElement('div');
       empty.classList.add('empty');
-      datesElement.appendChild(empty);
+      fragment.appendChild(empty);
     }
 
     for (let day = 1; day <= daysInMonth; day++) {
@@ -66,7 +68,6 @@
       dayDiv.textContent = day;
 
       const userSelection = selections[activeUser];
-
       if (userSelection.request.includes(day)) {
         dayDiv.classList.add('request');
       } else if (userSelection.avoid.includes(day)) {
@@ -74,8 +75,10 @@
       }
 
       dayDiv.addEventListener('click', () => handleDayClick(day, dayDiv));
-      datesElement.appendChild(dayDiv);
+      fragment.appendChild(dayDiv);
     }
+
+    datesElement.appendChild(fragment);
   }
 
   // Handle day click to toggle selection
@@ -113,7 +116,7 @@
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const monthName = currentDate.toLocaleString('default', { month: 'long' });
+    const monthAbbr = currentDate.toLocaleString('default', { month: 'short' });
 
     let lastAssignedParent = null;
     let consecutiveDays = 0;
@@ -121,7 +124,6 @@
     for (let day = 1; day <= daysInMonth; day++) {
       let assignedParent = null;
 
-      // Priority Assignment Logic
       if (selections.Dad.request.includes(day) && selections.Mom.request.includes(day)) {
         assignedParent = 'Conflict';
       } else if (selections.Dad.request.includes(day)) {
@@ -135,19 +137,17 @@
       } else if (selections.Mom.avoid.includes(day)) {
         assignedParent = 'Dad';
       } else {
-        // Balance assignment based on previous parent and target consecutive days between 3 and 5
         if (lastAssignedParent === null) {
           assignedParent = 'Dad';
         } else if (consecutiveDays < 3) {
           assignedParent = lastAssignedParent;
-        } else if (consecutiveDays >= 5) {
+        } else if (consecutiveDays >= 4) { // Adjusted from 5 to 4
           assignedParent = lastAssignedParent === 'Dad' ? 'Mom' : 'Dad';
         } else {
           assignedParent = lastAssignedParent;
         }
       }
 
-      // Update consecutive days count and last assigned parent
       if (assignedParent === lastAssignedParent) {
         consecutiveDays++;
       } else {
@@ -155,11 +155,11 @@
         consecutiveDays = 1;
       }
 
-      proposedCalendar.push({ day, month: monthName, parent: assignedParent });
+      proposedCalendar.push({ day, month: monthAbbr, parent: assignedParent });
 
       const div = document.createElement('div');
       div.classList.add('proposed-date', assignedParent.toLowerCase());
-      div.textContent = `${monthName} ${day}: ${assignedParent}`;
+      div.innerHTML = `<span>${assignedParent}</span><span>${monthAbbr} ${day}</span>`;
       div.addEventListener('click', () => toggleDayAssignment(day, div));
       proposedDatesElement.appendChild(div);
     }
@@ -173,18 +173,18 @@
     if (dayData && dayData.parent !== 'Conflict') {
       dayData.parent = dayData.parent === 'Dad' ? 'Mom' : 'Dad';
       element.className = `proposed-date ${dayData.parent.toLowerCase()}`;
-      element.textContent = `${dayData.month} ${day}: ${dayData.parent}`;
+      element.innerHTML = `<span>${dayData.parent}</span><span>${dayData.month} ${day}</span>`;
       updateDayCounts();
     }
   }
 
-  // Update the counters for days assigned to Dad and Mom
+  // Update day counts
   function updateDayCounts() {
     const dadDaysCount = proposedCalendar.filter(entry => entry.parent === 'Dad').length;
     const momDaysCount = proposedCalendar.filter(entry => entry.parent === 'Mom').length;
 
-    dadDaysCountElement.textContent = `Days with Dad: ${dadDaysCount}`;
-    momDaysCountElement.textContent = `Days with Mom: ${momDaysCount}`;
+    dadDaysCountElement.textContent = dadDaysCount;
+    momDaysCountElement.textContent = momDaysCount;
   }
 
   // Export as Excel
@@ -201,7 +201,7 @@
     XLSX.writeFile(workbook, 'Proposed_Schedule.xlsx');
   }
 
-  // Export as ICS for Google/Outlook
+  // Export as ICS
   function downloadICS() {
     let calendarData = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Shared Planning Calendar//EN\n";
 
@@ -209,10 +209,7 @@
       if (entry.parent !== 'Conflict') {
         const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), entry.day);
         const formattedDate = formatDateForICS(date);
-        const summary = `Custody Schedule - ${entry.parent}`;
-        const description = `Scheduled time for ${entry.parent} on ${entry.month} ${entry.day}`;
-
-        calendarData += `BEGIN:VEVENT\nSUMMARY:${summary}\nDTSTART;VALUE=DATE:${formattedDate}\nDTEND;VALUE=DATE:${formattedDate}\nDESCRIPTION:${description}\nEND:VEVENT\n`;
+        calendarData += `BEGIN:VEVENT\nSUMMARY:${entry.parent}\nDTSTART;VALUE=DATE:${formattedDate}\nDTEND;VALUE=DATE:${formattedDate}\nDESCRIPTION:Custody schedule\nEND:VEVENT\n`;
       }
     });
 
@@ -221,7 +218,7 @@
     const blob = new Blob([calendarData], { type: 'text/calendar' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = "custody_schedule.ics";
+    link.download = 'Custody_Schedule.ics';
     link.click();
   }
 
