@@ -174,6 +174,33 @@
     XLSX.writeFile(workbook, 'Proposed_Schedule.xlsx');
   }
 
+  // Export as ICS for Google/Outlook
+  function downloadICS() {
+    let calendarData = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Shared Planning Calendar//EN\n";
+
+    proposedCalendar.forEach(entry => {
+      const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), entry.day);
+      const formattedDate = formatDateForICS(date);
+      const summary = `Custody Schedule - ${entry.parent}`;
+      const description = `Scheduled time for ${entry.parent} on ${entry.month} ${entry.day}`;
+
+      calendarData += `BEGIN:VEVENT\nSUMMARY:${summary}\nDTSTART;VALUE=DATE:${formattedDate}\nDTEND;VALUE=DATE:${formattedDate}\nDESCRIPTION:${description}\nEND:VEVENT\n`;
+    });
+
+    calendarData += "END:VCALENDAR";
+
+    const blob = new Blob([calendarData], { type: 'text/calendar' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = "custody_schedule.ics";
+    link.click();
+  }
+
+  // Helper function to format date as required by ICS standard
+  function formatDateForICS(date) {
+    return date.toISOString().split('T')[0].replace(/-/g, '');
+  }
+
   // Paywall functionality
   function showModal() {
     paywallModal.style.display = 'block';
@@ -210,6 +237,7 @@
   });
 
   downloadExcelButton.addEventListener('click', downloadExcel);
+  downloadCalendarButton.addEventListener('click', downloadICS); // Updated to handle ICS download
 
   document.getElementById('user1Button').addEventListener('click', () => switchUser('Dad'));
   document.getElementById('user2Button').addEventListener('click', () => switchUser('Mom'));

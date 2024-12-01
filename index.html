@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +9,20 @@
   <link rel="icon" href="favicon.ico" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
+
 <body>
   <div class="app">
+    <!-- Logo -->
+    <div class="logo-container">
+      <img src="images/0a83de90-d295-445f-b09c-0e1efc35941d.webp" alt="Shared Planning Calendar Logo" class="logo">
+    </div>
+
     <h1>Shared Planning Calendar</h1>
-    
+    <!-- Subtitle / Company Tag -->
+    <p class="subtitle">by OneByte LLC</p>
+
     <!-- User Toggle -->
-    <div id="userToggle">
+    <div id="userToggle" class="user-toggle">
       <button id="user1Button" class="active" aria-label="Switch to Dad">Dad</button>
       <button id="user2Button" aria-label="Switch to Mom">Mom</button>
     </div>
@@ -36,10 +45,13 @@
       <span>Sat</span>
     </div>
     <div id="dates"></div>
-    <button id="generateOutput">Generate Output</button>
+
+    <!-- Generate Output Button -->
+    <button id="generateOutput" class="generate-output-btn">Generate Output</button>
 
     <!-- Preferences Section -->
     <div class="preferences-container">
+      <!-- Dad's Preferences -->
       <div class="preferences-card">
         <h3>Dad's Preferences</h3>
         <p>Requested:</p>
@@ -51,6 +63,8 @@
           <li>None</li>
         </ul>
       </div>
+
+      <!-- Mom's Preferences -->
       <div class="preferences-card">
         <h3>Mom's Preferences</h3>
         <p>Requested:</p>
@@ -71,7 +85,7 @@
     </div>
 
     <!-- Download Section -->
-    <div id="downloadSection">
+    <div id="downloadSection" class="download-section">
       <h3>Download Options</h3>
       <button id="downloadExcel">
         <span>📥</span> Download as Excel
@@ -89,10 +103,7 @@
       <p>Please make a $5 donation in BTC to access the Generate Output feature.</p>
       <p><strong>Bitcoin Address:</strong></p>
       <p id="btcAddress">bc1qp7atyd9v5ddxqyl09wpzz6dp2wq78hny3tz6jj</p>
-      <img 
-        id="btcQR" 
-        src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=bitcoin:bc1qp7atyd9v5ddxqyl09wpzz6dp2wq78hny3tz6jj&choe=UTF-8" 
-        alt="QR Code for BTC" />
+      <img id="btcQR" src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=bitcoin:bc1qp7atyd9v5ddxqyl09wpzz6dp2wq78hny3tz6jj&choe=UTF-8" alt="QR Code for BTC" />
       <p>Once you've made the payment, click "Confirm Payment."</p>
       <button id="confirmPayment">Confirm Payment</button>
       <button id="closeModal">Cancel</button>
@@ -101,4 +112,5 @@
 
   <script src="script.js" defer></script>
 </body>
+
 </html>
