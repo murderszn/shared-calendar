@@ -33,17 +33,9 @@ body {
 }
 
 .logo {
-  width: 80px; /* Set a fixed width that is appropriate */
-  max-width: 100%; /* Ensure the logo doesn't exceed the container size */
-  height: auto; /* Keep the aspect ratio */
+  width: 150px;
+  height: auto;
   transition: all 0.3s ease;
-}
-
-/* Responsive logo adjustments for smaller screens */
-@media (max-width: 480px) {
-  .logo {
-    width: 60px; /* Make the logo smaller for mobile devices */
-  }
 }
 
 /* Typography */
@@ -356,6 +348,6 @@ button:hover {
   }
 
   .logo {
-    width: 60px;
+    width: 150px;
   }
 }
