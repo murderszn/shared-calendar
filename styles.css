@@ -2,8 +2,8 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  background-color: #f7f7f7;
+  font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f5f7fa;
   color: #333;
   display: flex;
   justify-content: center;
@@ -15,7 +15,7 @@ body {
 /* App container */
 .app {
   width: 95%;
-  max-width: 800px;
+  max-width: 900px;
   background-color: white;
   border-radius: 12px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
@@ -26,7 +26,7 @@ body {
 
 /* Typography */
 h1 {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: bold;
   text-align: center;
   margin-bottom: 20px;
@@ -34,7 +34,7 @@ h1 {
 }
 
 h3 {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 600;
   margin-top: 30px;
   margin-bottom: 10px;
@@ -43,7 +43,7 @@ h3 {
 
 p, ul {
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #555;
 }
 
@@ -51,19 +51,19 @@ p, ul {
 button {
   display: inline-block;
   font-size: 16px;
-  padding: 10px 20px;
+  padding: 12px 20px;
   background-color: #0073e6;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
   background-color: #005bb5;
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 #generateOutput {
@@ -73,24 +73,37 @@ button:hover {
   max-width: 300px;
 }
 
+#downloadSection {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#downloadSection button {
+  margin: 10px;
+  background-color: #28a745;
+}
+
+#downloadSection button:hover {
+  background-color: #218838;
+}
+
 /* Paywall Modal */
 .modal {
-  display: none; /* Hidden by default */
+  display: none;
   position: fixed;
   z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .modal-content {
   background-color: #fff;
-  margin: 15% auto;
+  margin: 10% auto;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   max-width: 500px;
   text-align: center;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
@@ -99,7 +112,7 @@ button:hover {
 .modal-content h2 {
   font-size: 24px;
   margin-bottom: 20px;
-  color: #333;
+  color: #222;
 }
 
 .modal-content p {
@@ -108,49 +121,12 @@ button:hover {
   color: #555;
 }
 
-#btcAddress {
-  font-family: monospace;
-  font-size: 16px;
-  margin: 10px 0;
-  color: #444;
-}
-
-/* QR Code */
-#btcQR {
-  width: 200px;
-  height: 200px;
-  margin: 10px auto;
-  background: url('qrcode.svg') no-repeat center center;
-  background-size: contain;
-}
-
-/* Modal buttons */
-.modal-content button {
-  display: inline-block;
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #0073e6;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.modal-content button:hover {
-  background-color: #005bb5;
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
-}
-
 /* User toggle */
 #userToggle {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
   gap: 10px;
-  flex-wrap: wrap;
 }
 
 #userToggle button {
@@ -166,14 +142,23 @@ button:hover {
   color: white;
 }
 
-/* Calendar styles */
+/* Calendar */
 .calendar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 18px;
   margin-bottom: 20px;
-  flex-wrap: wrap;
+}
+
+.day-labels {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-size: 14px;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #555;
 }
 
 #dates, #proposedDates {
@@ -187,10 +172,11 @@ button:hover {
   box-sizing: border-box;
 }
 
+/* Calendar Cell */
 .date-container {
   background-color: #f7f7f7;
   text-align: center;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 16px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -199,145 +185,129 @@ button:hover {
 }
 
 .date-container:hover {
-  background-color: #e9f3ff;
-  box-shadow: 0px 4px 8px rgba(0, 0, 115, 0.2);
+  background-color: #e3f2fd;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .date-container.request {
-  background-color: #28a745; /* Green for request */
+  background-color: #28a745;
   color: white;
 }
 
 .date-container.avoid {
-  background-color: #dc3545; /* Red for avoid */
+  background-color: #dc3545;
   color: white;
 }
 
-/* Preferences Section */
+.date-container.current-day {
+  border: 2px solid #0073e6;
+}
+
+/* Preferences */
 .preferences-container {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap; /* Ensures responsiveness for smaller screens */
+  flex-wrap: wrap;
   margin-top: 20px;
-  gap: 20px; /* Adds spacing between the cards */
+  gap: 20px;
 }
 
 .preferences-card {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  flex: 1; /* Ensures the cards have equal width */
-  min-width: 300px; /* Ensures a minimum width for each card */
-  max-width: 48%; /* Ensures the cards stay within a single row on larger screens */
-  box-sizing: border-box;
-  text-align: left; /* Aligns the text to the left */
-}
-
-.preferences-card h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-  font-weight: bold;
-  color: #444;
-}
-
-.preferences-card p {
-  font-size: 16px;
-  margin: 5px 0;
-  color: #555;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 300px;
+  max-width: 48%;
+  text-align: left;
 }
 
 .preferences-card ul {
   margin: 10px 0;
   padding-left: 20px;
   list-style-type: disc;
-  color: #555;
-  font-size: 16px;
-  line-height: 1.5;
 }
 
-/* Proposed calendar */
+/* Proposed Schedule */
 .proposed-calendar {
   margin-top: 30px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
   padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-  overflow-x: hidden;
+  margin: 0 auto;
 }
 
 .proposed-date {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  border-radius: 6px;
+  justify-content: center;
+  border-radius: 8px;
   text-align: center;
   font-size: 14px;
   font-weight: bold;
-  aspect-ratio: 1; /* Ensures uniform squares */
+  cursor: pointer;
+  gap: 4px;
+  aspect-ratio: 1; /* Ensures the box is square */
+  padding: 10px;
+  color: white; /* Ensures all text is white */
 }
 
+.proposed-date span {
+  display: block;
+  color: white; /* All text inside the box is white */
+  font-size: 12px;
+  text-decoration: none;
+}
+
+/* For 'user', 'month', and 'date' display */
+.proposed-date .user {
+  font-size: 12px;
+}
+
+.proposed-date .month {
+  font-size: 14px;
+}
+
+.proposed-date .date {
+  font-size: 16px;
+}
+
+/* Styling for 'Dad' and 'Mom' */
 .proposed-date.dad {
-  background-color: #0073e6; /* Blue for Dad */
-  color: white;
+  background-color: #0073e6;
 }
 
 .proposed-date.mom {
-  background-color: #e63946; /* Red for Mom */
-  color: white;
+  background-color: #e63946;
 }
 
-.proposed-date.conflict {
-  background-color: #f1c40f; /* Yellow for Conflict */
-  color: black;
-}
-
-.proposed-date.unallocated {
-  background-color: #6c757d; /* Gray for Unallocated */
-  color: white;
-}
-
-/* Hover Effect */
 .proposed-date:hover {
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  transform: scale(1.05); /* Slight zoom effect */
-}
-
-/* Download section */
-#downloadSection {
-  margin-top: 30px;
-  text-align: center;
-}
-
-#downloadSection button {
-  margin: 10px 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
 }
 
 /* Responsive Styles */
-@media (max-width: 1200px) {
+@media (max-width: 768px) {
   #dates, #proposedDates {
-      max-width: 100%;
-      gap: 8px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
   }
 
-  .date-container, .proposed-date {
-      padding: 10px;
-      font-size: 14px;
+  .preferences-card {
+    min-width: 100%;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   #dates, #proposedDates {
-      grid-template-columns: repeat(4, 1fr); /* Adjust to 4 boxes per row */
-      gap: 6px;
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .date-container, .proposed-date {
-      padding: 8px;
-      font-size: 12px;
+  #generateOutput, #downloadSection button {
+    width: 100%;
   }
 }

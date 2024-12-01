@@ -8,29 +8,24 @@
   const dadAvoidedDatesElement = document.getElementById('dadAvoidedDates');
   const momRequestedDatesElement = document.getElementById('momRequestedDates');
   const momAvoidedDatesElement = document.getElementById('momAvoidedDates');
-  const user1Button = document.getElementById('user1Button');
-  const user2Button = document.getElementById('user2Button');
   const proposedDatesElement = document.getElementById('proposedDates');
   const downloadExcelButton = document.getElementById('downloadExcel');
   const downloadCalendarButton = document.getElementById('downloadCalendar');
-
-  // Paywall Modal Elements
   const paywallModal = document.getElementById('paywallModal');
   const closeModalButton = document.getElementById('closeModal');
   const confirmPaymentButton = document.getElementById('confirmPayment');
   const btcQRImage = document.getElementById('btcQR');
-  const btcAddress = 'bc1qp7atyd9v5ddxqyl09wpzz6dp2wq78hny3tz6jj';
 
   let currentDate = new Date();
-  let activeUser = 'Dad'; // Default user
+  let activeUser = 'Dad';
   const selections = {
     Dad: { request: [], avoid: [] },
     Mom: { request: [], avoid: [] },
   };
   let proposedCalendar = [];
-  let paymentConfirmed = false; // Tracks if payment has been confirmed
+  let paymentConfirmed = false;
 
-  // Set the QR Code from local file
+  // Set BTC QR code from local file
   function setLocalBTCQRCode() {
     if (btcQRImage) {
       btcQRImage.src = './qrcode.svg';
@@ -41,9 +36,9 @@
   // Switch active user
   function switchUser(user) {
     activeUser = user;
-    user1Button.classList.toggle('active', user === 'Dad');
-    user2Button.classList.toggle('active', user === 'Mom');
     renderCalendar();
+    document.getElementById('user1Button').classList.toggle('active', user === 'Dad');
+    document.getElementById('user2Button').classList.toggle('active', user === 'Mom');
   }
 
   // Render the calendar
@@ -56,14 +51,12 @@
 
     monthYearElement.textContent = `${currentDate.toLocaleString('default', { month: 'long' })} ${year}`;
 
-    // Add empty days for alignment
     for (let i = 0; i < firstDay; i++) {
       const empty = document.createElement('div');
       empty.classList.add('empty');
       datesElement.appendChild(empty);
     }
 
-    // Add actual days
     for (let day = 1; day <= daysInMonth; day++) {
       const dayDiv = document.createElement('div');
       dayDiv.classList.add('date-container');
@@ -109,18 +102,88 @@
     momAvoidedDatesElement.innerHTML = selections.Mom.avoid.join(', ') || 'None';
   }
 
+  // Generate optimized custody schedule
+  function generateProposedCalendar() {
+    proposedDatesElement.innerHTML = '';
+    proposedCalendar = [];
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const monthName = currentDate.toLocaleString('default', { month: 'long' });
+
+    let lastAssignedParent = null;
+    let consecutiveDays = 0;
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      let assignedParent = null;
+
+      if (selections.Dad.request.includes(day) && !selections.Mom.request.includes(day)) {
+        assignedParent = 'Dad';
+      } else if (selections.Mom.request.includes(day) && !selections.Dad.request.includes(day)) {
+        assignedParent = 'Mom';
+      } else if (selections.Dad.avoid.includes(day) && !selections.Mom.avoid.includes(day)) {
+        assignedParent = 'Mom';
+      } else if (selections.Mom.avoid.includes(day) && !selections.Dad.avoid.includes(day)) {
+        assignedParent = 'Dad';
+      } else {
+        if (lastAssignedParent === null || consecutiveDays >= 3) {
+          assignedParent = lastAssignedParent === 'Dad' ? 'Mom' : 'Dad';
+        } else {
+          assignedParent = lastAssignedParent;
+        }
+      }
+
+      if (assignedParent === lastAssignedParent) {
+        consecutiveDays++;
+      } else {
+        lastAssignedParent = assignedParent;
+        consecutiveDays = 1;
+      }
+
+      proposedCalendar.push({ day, month: monthName, parent: assignedParent });
+
+      const div = document.createElement('div');
+      div.classList.add('proposed-date', assignedParent.toLowerCase());
+      div.textContent = `${monthName} ${day}: ${assignedParent}`;
+      div.addEventListener('click', () => toggleDayAssignment(day, div));
+      proposedDatesElement.appendChild(div);
+    }
+  }
+
+  // Toggle individual day assignment in the proposed schedule
+  function toggleDayAssignment(day, element) {
+    const dayData = proposedCalendar.find(entry => entry.day === day);
+    if (dayData) {
+      dayData.parent = dayData.parent === 'Dad' ? 'Mom' : 'Dad';
+      element.className = `proposed-date ${dayData.parent.toLowerCase()}`;
+      element.textContent = `${dayData.month} ${day}: ${dayData.parent}`;
+    }
+  }
+
+  // Export as Excel
+  function downloadExcel() {
+    const worksheetData = proposedCalendar.map(entry => ({
+      Day: entry.day,
+      Month: entry.month,
+      AssignedTo: entry.parent,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Proposed Schedule');
+    XLSX.writeFile(workbook, 'Proposed_Schedule.xlsx');
+  }
+
   // Paywall functionality
   function showModal() {
     paywallModal.style.display = 'block';
-    paywallModal.setAttribute('aria-hidden', 'false');
-    closeModalButton.focus();
   }
 
   function closeModal() {
     paywallModal.style.display = 'none';
-    paywallModal.setAttribute('aria-hidden', 'true');
   }
 
+  // Event Listeners
   generateOutputButton.addEventListener('click', () => {
     if (!paymentConfirmed) {
       showModal();
@@ -133,11 +196,9 @@
   confirmPaymentButton.addEventListener('click', () => {
     paymentConfirmed = true;
     closeModal();
-    alert('Thank you for your support!');
     generateProposedCalendar();
   });
 
-  // Event Listeners
   prevMonthButton.addEventListener('click', () => {
     currentDate.setMonth(currentDate.getMonth() - 1);
     renderCalendar();
@@ -148,8 +209,10 @@
     renderCalendar();
   });
 
-  user1Button.addEventListener('click', () => switchUser('Dad'));
-  user2Button.addEventListener('click', () => switchUser('Mom'));
+  downloadExcelButton.addEventListener('click', downloadExcel);
+
+  document.getElementById('user1Button').addEventListener('click', () => switchUser('Dad'));
+  document.getElementById('user2Button').addEventListener('click', () => switchUser('Mom'));
 
   // Initial Render
   setLocalBTCQRCode();
