@@ -4,10 +4,10 @@
   const prevMonthButton = document.getElementById('prevMonth');
   const nextMonthButton = document.getElementById('nextMonth');
   const generateOutputButton = document.getElementById('generateOutput');
-  const dadRequestedDatesElement = document.getElementById('dadRequestedDates');
-  const dadAvoidedDatesElement = document.getElementById('dadAvoidedDates');
-  const momRequestedDatesElement = document.getElementById('momRequestedDates');
-  const momAvoidedDatesElement = document.getElementById('momAvoidedDates');
+  const dadRequestedDatesInlineElement = document.getElementById('dadRequestedDatesInline');
+  const dadAvoidedDatesInlineElement = document.getElementById('dadAvoidedDatesInline');
+  const momRequestedDatesInlineElement = document.getElementById('momRequestedDatesInline');
+  const momAvoidedDatesInlineElement = document.getElementById('momAvoidedDatesInline');
   const proposedDatesElement = document.getElementById('proposedDates');
   const downloadExcelButton = document.getElementById('downloadExcel');
   const downloadCalendarButton = document.getElementById('downloadCalendar');
@@ -15,6 +15,8 @@
   const closeModalButton = document.getElementById('closeModal');
   const confirmPaymentButton = document.getElementById('confirmPayment');
   const btcQRImage = document.getElementById('btcQR');
+  const dadDaysCountElement = document.getElementById('dadDaysCount');
+  const momDaysCountElement = document.getElementById('momDaysCount');
 
   let currentDate = new Date();
   let activeUser = 'Dad';
@@ -28,7 +30,7 @@
   // Set BTC QR code from local file
   function setLocalBTCQRCode() {
     if (btcQRImage) {
-      btcQRImage.src = './images/qrcode.svg';
+      btcQRImage.src = 'qrcode.svg';
       btcQRImage.alt = 'Bitcoin QR Code';
     }
   }
@@ -37,6 +39,7 @@
   function switchUser(user) {
     activeUser = user;
     renderCalendar();
+    updatePreferencesDisplay();
     document.getElementById('user1Button').classList.toggle('active', user === 'Dad');
     document.getElementById('user2Button').classList.toggle('active', user === 'Mom');
   }
@@ -63,6 +66,7 @@
       dayDiv.textContent = day;
 
       const userSelection = selections[activeUser];
+
       if (userSelection.request.includes(day)) {
         dayDiv.classList.add('request');
       } else if (userSelection.avoid.includes(day)) {
@@ -96,10 +100,10 @@
 
   // Update preferences display
   function updatePreferencesDisplay() {
-    dadRequestedDatesElement.innerHTML = selections.Dad.request.join(', ') || 'None';
-    dadAvoidedDatesElement.innerHTML = selections.Dad.avoid.join(', ') || 'None';
-    momRequestedDatesElement.innerHTML = selections.Mom.request.join(', ') || 'None';
-    momAvoidedDatesElement.innerHTML = selections.Mom.avoid.join(', ') || 'None';
+    dadRequestedDatesInlineElement.textContent = selections.Dad.request.join(', ') || 'None';
+    dadAvoidedDatesInlineElement.textContent = selections.Dad.avoid.join(', ') || 'None';
+    momRequestedDatesInlineElement.textContent = selections.Mom.request.join(', ') || 'None';
+    momAvoidedDatesInlineElement.textContent = selections.Mom.avoid.join(', ') || 'None';
   }
 
   // Generate optimized custody schedule
@@ -117,22 +121,33 @@
     for (let day = 1; day <= daysInMonth; day++) {
       let assignedParent = null;
 
-      if (selections.Dad.request.includes(day) && !selections.Mom.request.includes(day)) {
+      // Priority Assignment Logic
+      if (selections.Dad.request.includes(day) && selections.Mom.request.includes(day)) {
+        assignedParent = 'Conflict';
+      } else if (selections.Dad.request.includes(day)) {
         assignedParent = 'Dad';
-      } else if (selections.Mom.request.includes(day) && !selections.Dad.request.includes(day)) {
+      } else if (selections.Mom.request.includes(day)) {
         assignedParent = 'Mom';
-      } else if (selections.Dad.avoid.includes(day) && !selections.Mom.avoid.includes(day)) {
+      } else if (selections.Dad.avoid.includes(day) && selections.Mom.avoid.includes(day)) {
+        assignedParent = 'Conflict';
+      } else if (selections.Dad.avoid.includes(day)) {
         assignedParent = 'Mom';
-      } else if (selections.Mom.avoid.includes(day) && !selections.Dad.avoid.includes(day)) {
+      } else if (selections.Mom.avoid.includes(day)) {
         assignedParent = 'Dad';
       } else {
-        if (lastAssignedParent === null || consecutiveDays >= 3) {
+        // Balance assignment based on previous parent and target consecutive days between 3 and 5
+        if (lastAssignedParent === null) {
+          assignedParent = 'Dad';
+        } else if (consecutiveDays < 3) {
+          assignedParent = lastAssignedParent;
+        } else if (consecutiveDays >= 5) {
           assignedParent = lastAssignedParent === 'Dad' ? 'Mom' : 'Dad';
         } else {
           assignedParent = lastAssignedParent;
         }
       }
 
+      // Update consecutive days count and last assigned parent
       if (assignedParent === lastAssignedParent) {
         consecutiveDays++;
       } else {
@@ -148,16 +163,28 @@
       div.addEventListener('click', () => toggleDayAssignment(day, div));
       proposedDatesElement.appendChild(div);
     }
+
+    updateDayCounts();
   }
 
   // Toggle individual day assignment in the proposed schedule
   function toggleDayAssignment(day, element) {
     const dayData = proposedCalendar.find(entry => entry.day === day);
-    if (dayData) {
+    if (dayData && dayData.parent !== 'Conflict') {
       dayData.parent = dayData.parent === 'Dad' ? 'Mom' : 'Dad';
       element.className = `proposed-date ${dayData.parent.toLowerCase()}`;
       element.textContent = `${dayData.month} ${day}: ${dayData.parent}`;
+      updateDayCounts();
     }
+  }
+
+  // Update the counters for days assigned to Dad and Mom
+  function updateDayCounts() {
+    const dadDaysCount = proposedCalendar.filter(entry => entry.parent === 'Dad').length;
+    const momDaysCount = proposedCalendar.filter(entry => entry.parent === 'Mom').length;
+
+    dadDaysCountElement.textContent = `Days with Dad: ${dadDaysCount}`;
+    momDaysCountElement.textContent = `Days with Mom: ${momDaysCount}`;
   }
 
   // Export as Excel
@@ -179,12 +206,14 @@
     let calendarData = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Shared Planning Calendar//EN\n";
 
     proposedCalendar.forEach(entry => {
-      const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), entry.day);
-      const formattedDate = formatDateForICS(date);
-      const summary = `Custody Schedule - ${entry.parent}`;
-      const description = `Scheduled time for ${entry.parent} on ${entry.month} ${entry.day}`;
+      if (entry.parent !== 'Conflict') {
+        const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), entry.day);
+        const formattedDate = formatDateForICS(date);
+        const summary = `Custody Schedule - ${entry.parent}`;
+        const description = `Scheduled time for ${entry.parent} on ${entry.month} ${entry.day}`;
 
-      calendarData += `BEGIN:VEVENT\nSUMMARY:${summary}\nDTSTART;VALUE=DATE:${formattedDate}\nDTEND;VALUE=DATE:${formattedDate}\nDESCRIPTION:${description}\nEND:VEVENT\n`;
+        calendarData += `BEGIN:VEVENT\nSUMMARY:${summary}\nDTSTART;VALUE=DATE:${formattedDate}\nDTEND;VALUE=DATE:${formattedDate}\nDESCRIPTION:${description}\nEND:VEVENT\n`;
+      }
     });
 
     calendarData += "END:VCALENDAR";
@@ -237,7 +266,7 @@
   });
 
   downloadExcelButton.addEventListener('click', downloadExcel);
-  downloadCalendarButton.addEventListener('click', downloadICS); // Updated to handle ICS download
+  downloadCalendarButton.addEventListener('click', downloadICS);
 
   document.getElementById('user1Button').addEventListener('click', () => switchUser('Dad'));
   document.getElementById('user2Button').addEventListener('click', () => switchUser('Mom'));

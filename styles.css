@@ -25,26 +25,49 @@ body {
 }
 
 /* Logo styles */
-.logo-wrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  max-width: 150px;
-  margin: 0 auto 20px auto; /* Center the logo container */
-}
-
 .logo-container {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .logo {
-  width: 100%;
-  max-width: 150px;
+  width: 150px;
   height: auto;
   transition: all 0.3s ease;
+}
+
+/* Calendar Key */
+.calendar-key {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.key-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.key-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.requested {
+  background-color: #28a745; /* Green for requested */
+}
+
+.avoided {
+  background-color: #dc3545; /* Red for avoided */
+}
+
+.conflict {
+  background-color: #f4c542; /* Yellow for conflicts */
 }
 
 /* Typography */
@@ -74,10 +97,18 @@ h3 {
   text-align: center;
 }
 
-p, ul {
+p {
   font-size: 16px;
   line-height: 1.6;
   color: #555;
+}
+
+/* Proposed Schedule Logic Notes */
+.logic-notes {
+  font-size: 14px;
+  color: #777;
+  margin-top: 10px;
+  text-align: center;
 }
 
 /* Buttons */
@@ -236,55 +267,19 @@ button:hover {
   border: 2px solid #0073e6;
 }
 
-/* Preferences */
-.preferences-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-top: 20px;
-  gap: 20px;
-}
-
-.preferences-card {
-  background-color: #ffffff;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  flex: 1;
-  min-width: 300px;
-  max-width: 48%;
-  text-align: left;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 200px;
-}
-
-.preferences-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.preferences-header {
-  font-size: 18px;
-  font-weight: bold;
-  color: #0073e6;
-  margin-bottom: 15px;
-}
-
-/* Requested and Avoided styles */
-.preferences-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.preferences-list span {
+/* Preferences - Inline Summary Below Calendar */
+.preferences-summary {
+  text-align: center;
   font-size: 16px;
+  margin-top: 15px;
   color: #555;
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
 }
 
-.preferences-list .value {
-  font-weight: bold;
-  color: #0073e6;
+.preferences-summary div {
+  flex: 1;
 }
 
 /* Proposed Schedule */
@@ -330,6 +325,11 @@ button:hover {
   background-color: #e63946;
 }
 
+.proposed-date.conflict {
+  background-color: #f4c542; /* Yellow for conflicts */
+  color: black;
+}
+
 .proposed-date:hover {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
   transform: scale(1.05);
@@ -342,8 +342,10 @@ button:hover {
     gap: 6px;
   }
 
-  .preferences-card {
-    min-width: 100%;
+  .preferences-summary {
+    flex-direction: column;
+    text-align: left;
+    gap: 5px;
   }
 }
 
@@ -357,6 +359,6 @@ button:hover {
   }
 
   .logo {
-    width: 100px;
+    width: 120px;
   }
 }

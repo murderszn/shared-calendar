@@ -6,13 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shared Planning Calendar</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="icon" href="favicon.ico">
+  <link rel="icon" href="favicon.ico" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 
 <body>
   <div class="app">
-
     <!-- Logo Container -->
     <div class="logo-wrapper">
       <div class="logo-container">
@@ -21,7 +20,14 @@
     </div>
 
     <h1>Shared Planning Calendar</h1>
-    <div class="subtitle">by OneByte LLC</div>
+    <div class="subtitle">by OneByte LLC</div> <!-- Added subtitle -->
+
+    <!-- Key for Calendar -->
+    <div class="calendar-key">
+      <div class="key-item"><span class="key-box requested"></span>Requested</div>
+      <div class="key-item"><span class="key-box avoided"></span>Avoided</div>
+      <div class="key-item"><span class="key-box conflict"></span>Conflict</div>
+    </div>
 
     <!-- User Toggle -->
     <div id="userToggle" class="user-toggle">
@@ -48,43 +54,28 @@
     </div>
     <div id="dates"></div>
 
+    <!-- Preferences Section (Now Moved Below the Calendar) -->
+    <div class="preferences-summary">
+      <p><strong>Dad's Preferences:</strong> Requested: <span id="dadRequestedDatesInline">None</span>, Avoided: <span id="dadAvoidedDatesInline">None</span></p>
+      <p><strong>Mom's Preferences:</strong> Requested: <span id="momRequestedDatesInline">None</span>, Avoided: <span id="momAvoidedDatesInline">None</span></p>
+    </div>
+
     <!-- Generate Output Button -->
     <button id="generateOutput" class="generate-output-btn">Generate Output</button>
-
-    <!-- Preferences Section -->
-    <div class="preferences-container">
-
-      <!-- Dad's Preferences -->
-      <div class="preferences-card">
-        <h3>Dad's Preferences</h3>
-        <p>Requested:</p>
-        <ul id="dadRequestedDates">
-          <li>None</li>
-        </ul>
-        <p>Avoided:</p>
-        <ul id="dadAvoidedDates">
-          <li>None</li>
-        </ul>
-      </div>
-
-      <!-- Mom's Preferences -->
-      <div class="preferences-card">
-        <h3>Mom's Preferences</h3>
-        <p>Requested:</p>
-        <ul id="momRequestedDates">
-          <li>None</li>
-        </ul>
-        <p>Avoided:</p>
-        <ul id="momAvoidedDates">
-          <li>None</li>
-        </ul>
-      </div>
-    </div>
 
     <!-- Proposed Calendar Section -->
     <div class="proposed-calendar">
       <h3>Proposed Schedule</h3>
       <div id="proposedDates"></div>
+      <p class="logic-notes">
+        Note: This schedule is generated based on preferences. You can modify the proposed schedule by clicking each day to toggle between "Dad," "Mom," or resolve conflicts.
+      </p>
+
+      <!-- Assigned Days Summary (Moved inside Proposed Calendar Section) -->
+      <div class="assigned-days-summary">
+        <p><strong>Dad's Assigned Days:</strong> <span id="dadDaysCount">0</span></p>
+        <p><strong>Mom's Assigned Days:</strong> <span id="momDaysCount">0</span></p>
+      </div>
     </div>
 
     <!-- Download Section -->
@@ -106,7 +97,7 @@
       <p>Please make a $5 donation in BTC to access the Generate Output feature.</p>
       <p><strong>Bitcoin Address:</strong></p>
       <p id="btcAddress">bc1qp7atyd9v5ddxqyl09wpzz6dp2wq78hny3tz6jj</p>
-      <img id="btcQR" src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=bitcoin:bc1qp7atyd9v5ddxqyl09wpzz6dp2wq78hny3tz6jj&choe=UTF-8" alt="QR Code for BTC">
+      <img id="btcQR" src="qrcode.svg" alt="QR Code for BTC" />
       <p>Once you've made the payment, click "Confirm Payment."</p>
       <button id="confirmPayment">Confirm Payment</button>
       <button id="closeModal">Cancel</button>
