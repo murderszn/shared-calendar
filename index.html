@@ -11,15 +11,20 @@
   <div class="app">
     <h1>Shared Planning Calendar</h1>
     
+    <!-- User Toggle -->
     <div id="userToggle">
       <button id="user1Button" class="active">Dad</button>
       <button id="user2Button">Mom</button>
     </div>
+
+    <!-- Calendar Header -->
     <div class="calendar-header">
       <button id="prevMonth">&lt; Prev</button>
       <span id="monthYear"></span>
       <button id="nextMonth">Next &gt;</button>
     </div>
+
+    <!-- Dates Calendar -->
     <div id="dates"></div>
     <button id="generateOutput">Generate Output</button>
 
@@ -62,6 +67,24 @@
       <button id="downloadCalendar">Download for Google/Outlook</button>
     </div>
   </div>
+
+  <!-- Paywall Modal -->
+  <div id="paywallModal" class="modal">
+    <div class="modal-content">
+      <h2>Support Us</h2>
+      <p>Please make a $5 donation in BTC to access the Generate Output feature.</p>
+      <p><strong>Bitcoin Address:</strong></p>
+      <p id="btcAddress">bc1qp7atyd9v5ddxqyl09wpzz6dp2wq78hny3tz6jj</p>
+      <img 
+        id="btcQR" 
+        src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=bitcoin:bc1qp7atyd9v5ddxqyl09wpzz6dp2wq78hny3tz6jj&choe=UTF-8" 
+        alt="QR Code for BTC" />
+      <p>Once you've made the payment, click "Confirm Payment."</p>
+      <button id="confirmPayment">Confirm Payment</button>
+      <button id="closeModal">Cancel</button>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>

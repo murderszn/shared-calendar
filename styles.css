@@ -73,6 +73,77 @@ button:hover {
   max-width: 300px;
 }
 
+/* Paywall Modal */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.modal-content p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+#btcAddress {
+  font-family: monospace;
+  font-size: 16px;
+  margin: 10px 0;
+  color: #444;
+}
+
+/* QR Code */
+#btcQR {
+  width: 200px;
+  height: 200px;
+  margin: 10px auto;
+  background: url('qrcode.svg') no-repeat center center;
+  background-size: contain;
+}
+
+/* Modal buttons */
+.modal-content button {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #0073e6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content button:hover {
+  background-color: #005bb5;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
 /* User toggle */
 #userToggle {
   display: flex;
@@ -129,7 +200,7 @@ button:hover {
 
 .date-container:hover {
   background-color: #e9f3ff;
-  box-shadow: 0px 4px 8px rgba(0, 115, 230, 0.2);
+  box-shadow: 0px 4px 8px rgba(0, 0, 115, 0.2);
 }
 
 .date-container.request {
@@ -198,59 +269,36 @@ button:hover {
   overflow-x: hidden;
 }
 
-#proposedDates {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr); /* 7 boxes per row */
-  gap: 10px;
-  width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-  box-sizing: border-box;
-}
-
 .proposed-date {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  aspect-ratio: 1;
   border-radius: 6px;
-  background-color: #333;
-  color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.proposed-date .label {
+  text-align: center;
   font-size: 14px;
   font-weight: bold;
-  text-transform: uppercase;
-  position: absolute;
-  top: 10px;
+  aspect-ratio: 1; /* Ensures uniform squares */
 }
 
-.proposed-date .number {
-  font-size: 28px;
-  font-weight: bold;
-  white-space: pre-line;
-  line-height: 1.2;
-}
-
-/* Background colors for different roles */
 .proposed-date.dad {
   background-color: #0073e6; /* Blue for Dad */
+  color: white;
 }
 
 .proposed-date.mom {
   background-color: #e63946; /* Red for Mom */
+  color: white;
 }
 
 .proposed-date.conflict {
   background-color: #f1c40f; /* Yellow for Conflict */
+  color: black;
 }
 
 .proposed-date.unallocated {
   background-color: #6c757d; /* Gray for Unallocated */
+  color: white;
 }
 
 /* Hover Effect */
