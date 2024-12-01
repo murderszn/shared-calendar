@@ -33,15 +33,16 @@ body {
 }
 
 .logo {
-  width: 50%;
-  max-width: 80px;
-  height: auto;
+  width: 80px; /* Set a fixed width that is appropriate */
+  max-width: 100%; /* Ensure the logo doesn't exceed the container size */
+  height: auto; /* Keep the aspect ratio */
   transition: all 0.3s ease;
 }
 
-@media (max-width: 768px) {
+/* Responsive logo adjustments for smaller screens */
+@media (max-width: 480px) {
   .logo {
-    max-width: 60px;
+    width: 60px; /* Make the logo smaller for mobile devices */
   }
 }
 
@@ -355,6 +356,6 @@ button:hover {
   }
 
   .logo {
-    max-width: 50px;
+    width: 60px;
   }
 }
