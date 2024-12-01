@@ -29,17 +29,25 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .logo {
-  max-width: 60px;
+  width: 50%;
+  max-width: 80px;
   height: auto;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .logo {
+    max-width: 60px;
+  }
 }
 
 /* Typography */
 h1 {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: bold;
   text-align: center;
   margin-bottom: 5px;
@@ -51,7 +59,7 @@ h1 {
   color: #666;
   text-align: center;
   margin-top: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   font-weight: 400;
 }
 
@@ -187,7 +195,7 @@ button:hover {
 #dates, #proposedDates {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
+  gap: 8px;
   margin: 0 auto 20px;
   padding: 10px;
   width: 100%;
@@ -237,7 +245,7 @@ button:hover {
 
 .preferences-card {
   background-color: #ffffff;
-  padding: 20px;
+  padding: 15px;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   flex: 1;
@@ -245,7 +253,7 @@ button:hover {
   max-width: 48%;
   text-align: left;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 180px; /* Ensure uniform card height */
+  height: 200px;
 }
 
 .preferences-card:hover {
@@ -280,7 +288,7 @@ button:hover {
 /* Proposed Schedule */
 .proposed-calendar {
   margin-top: 20px;
-  padding: 20px;
+  padding: 15px;
   background: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -299,14 +307,14 @@ button:hover {
   font-weight: bold;
   cursor: pointer;
   gap: 4px;
-  aspect-ratio: 1; /* Ensures the box is square */
+  aspect-ratio: 1;
   padding: 10px;
-  color: white; /* Ensures all text is white */
+  color: white;
 }
 
 .proposed-date span {
   display: block;
-  color: white; /* All text inside the box is white */
+  color: white;
   font-size: 12px;
   text-decoration: none;
 }
@@ -344,5 +352,9 @@ button:hover {
 
   #generateOutput, #downloadSection button {
     width: 100%;
+  }
+
+  .logo {
+    max-width: 50px;
   }
 }
