@@ -29,17 +29,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .logo {
-  max-width: 100px;
+  max-width: 60px;
   height: auto;
 }
 
 /* Typography */
 h1 {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
   text-align: center;
   margin-bottom: 5px;
@@ -47,20 +47,21 @@ h1 {
 }
 
 .subtitle {
-  font-size: 16px;
+  font-size: 14px;
   color: #666;
   text-align: center;
   margin-top: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   font-weight: 400;
 }
 
 h3 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
-  margin-top: 30px;
-  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-bottom: 15px;
   color: #444;
+  text-align: center;
 }
 
 p, ul {
@@ -132,8 +133,8 @@ button:hover {
 }
 
 .modal-content h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 22px;
+  margin-bottom: 15px;
   color: #222;
 }
 
@@ -244,6 +245,7 @@ button:hover {
   max-width: 48%;
   text-align: left;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 180px; /* Ensure uniform card height */
 }
 
 .preferences-card:hover {
@@ -277,7 +279,7 @@ button:hover {
 
 /* Proposed Schedule */
 .proposed-calendar {
-  margin-top: 30px;
+  margin-top: 20px;
   padding: 20px;
   background: #f9f9f9;
   border-radius: 10px;
@@ -307,19 +309,6 @@ button:hover {
   color: white; /* All text inside the box is white */
   font-size: 12px;
   text-decoration: none;
-}
-
-/* For 'user', 'month', and 'date' display */
-.proposed-date .user {
-  font-size: 12px;
-}
-
-.proposed-date .month {
-  font-size: 14px;
-}
-
-.proposed-date .date {
-  font-size: 16px;
 }
 
 /* Styling for 'Dad' and 'Mom' */

@@ -28,7 +28,7 @@
   // Set BTC QR code from local file
   function setLocalBTCQRCode() {
     if (btcQRImage) {
-      btcQRImage.src = './qrcode.svg';
+      btcQRImage.src = './images/qrcode.svg';
       btcQRImage.alt = 'Bitcoin QR Code';
     }
   }
